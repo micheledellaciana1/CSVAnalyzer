@@ -1,5 +1,7 @@
 package CSVAnalyzer;
 
+import java.util.ArrayList;
+
 import javax.swing.JMenuBar;
 
 import org.jfree.chart.ChartPanel;
@@ -14,7 +16,11 @@ public class CSVAnalizerBoard extends ChartFrame {
     static private CSVAnalizerBoard _instance = new CSVAnalizerBoard(new ModChartPanel(), "CSVAnalyzer");
     private DataManager _dataManager;
     private MenuEditorCSVAnalyzer _menuEditor;
-    private filteringSupport _filteringSupport;
+    private ArrayList<filteringSupport> _filteringSupports;
+
+    private ArrayList<String> _LabelDomain;
+    private ArrayList<String> _LabelRange;
+    private Integer _selectedFilteringSupport = null;
 
     static public CSVAnalizerBoard getInstance() {
         return _instance;
@@ -22,7 +28,10 @@ public class CSVAnalizerBoard extends ChartFrame {
 
     private CSVAnalizerBoard(ChartPanel panel, String Title) {
         super(panel, Title);
-        _filteringSupport = new filteringSupport();
+        _filteringSupports = new ArrayList<filteringSupport>();
+        _LabelDomain = new ArrayList<String>();
+        _LabelRange = new ArrayList<String>();
+
         _menuEditor = new MenuEditorCSVAnalyzer(this);
     }
 
@@ -31,29 +40,64 @@ public class CSVAnalizerBoard extends ChartFrame {
         menubar.add(_menuEditor.BuildMenuFile());
         menubar.add(_menuEditor.BuildDisplayMenu());
         menubar.add(_menuEditor.BuildFilterMenu());
+        menubar.add(_menuEditor.BuildSelectMenu());
         setJMenuBar(menubar);
     }
 
-    public filteringSupport getFilteringSupport() {
-        return _filteringSupport;
+    public ArrayList<filteringSupport> getFilteringSupports() {
+        return _filteringSupports;
+    }
+
+    public filteringSupport getSelectedFilteringSupport() {
+        if (_selectedFilteringSupport == null)
+            throw new NullPointerException();
+        return _filteringSupports.get(_selectedFilteringSupport);
+    }
+
+    public int getIndexSelectedFilteringSupport() {
+        if (_selectedFilteringSupport == null)
+            throw new NullPointerException();
+        return _selectedFilteringSupport;
+    }
+
+    public void setSelectedFilteringSupport(int selected) {
+        if (selected < _filteringSupports.size()) {
+            _selectedFilteringSupport = selected;
+            _chart.getXYPlot().getDomainAxis().setLabel(_LabelDomain.get(_selectedFilteringSupport));
+            _chart.getXYPlot().getRangeAxis().setLabel(_LabelRange.get(_selectedFilteringSupport));
+        } else
+            return;
     }
 
     public void setDataManager(DataManager dataManager) {
         _dataManager = dataManager;
     }
 
-    public void DisplayIvsJ(int i, int j) {
-        if (i >= 0 && j >= 0 && i < _dataManager.getData().size() && j < _dataManager.getData().size()) {
-            clearData();
-            _filteringSupport.removeEveryFilter();
-            _filteringSupport.setOriginalData(_dataManager.getData(i), _dataManager.getData(j));
-            addSeries(_filteringSupport.getFilteredData(), "Filtered:" + i + ":" + j);
-            _chart.getXYPlot().getDomainAxis().setLabel(_dataManager.getLabel(i));
-            _chart.getXYPlot().getRangeAxis().setLabel(_dataManager.getLabel(j));
-        }
+    public DataManager getDataManager() {
+        return _dataManager;
     }
 
-    public void DisplayOriginal() {
-        addSeries(_filteringSupport.getOriginalData(), "Original");
+    public void EraseEveryPlot() {
+        clearData();
+        _filteringSupports.clear();
+        _LabelRange.clear();
+        _LabelDomain.clear();
+        _chart.getXYPlot().getDomainAxis().setLabel("X");
+        _chart.getXYPlot().getRangeAxis().setLabel("Y");
+    }
+
+    public void DisplayIvsJ(int i, int j) {
+        if (i >= 0 && j >= 0 && i < _dataManager.getData().size() && j < _dataManager.getData().size()) {
+            _filteringSupports.add(new filteringSupport());
+            _LabelRange.add(_dataManager.getLabel(i));
+            _LabelDomain.add(_dataManager.getLabel(j));
+
+            _selectedFilteringSupport = _filteringSupports.size() - 1;
+            getSelectedFilteringSupport().setOriginalData(_dataManager.getData(i), _dataManager.getData(j));
+            addSeries(getSelectedFilteringSupport().getFilteredData(),
+                    "Plot" + _selectedFilteringSupport + " :" + i + ":" + j);
+            _chart.getXYPlot().getDomainAxis().setLabel(_LabelDomain.get(_selectedFilteringSupport));
+            _chart.getXYPlot().getRangeAxis().setLabel(_LabelRange.get(_selectedFilteringSupport));
+        }
     }
 }
