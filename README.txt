@@ -1,3 +1,7 @@
+
+INSTALL
+Download the .jar file in the target folder and double click on it. That's it.
+
 This is a very easy analizer/visualizer for CSV (Comma Separeted Values) data, so it's used to open text files written in this format:
 ColoumnTitle0  ColoumnTitle1   ColoumnTitle2 ...
 value0  value0  value0  ...
@@ -25,6 +29,7 @@ N.B: Filter are added to the filtered data, so you can combine many in the singl
 
 Other things are quite intuitive.
 Stay tuned for updates. 
+
 
 
 
