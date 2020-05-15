@@ -89,13 +89,13 @@ public class CSVAnalizerBoard extends ChartFrame {
     public void DisplayIvsJ(int i, int j) {
         if (i >= 0 && j >= 0 && i < _dataManager.getData().size() && j < _dataManager.getData().size()) {
             _filteringSupports.add(new filteringSupport());
-            _LabelRange.add(_dataManager.getLabel(i));
-            _LabelDomain.add(_dataManager.getLabel(j));
+            _LabelDomain.add(_dataManager.getLabel(i));
+            _LabelRange.add(_dataManager.getLabel(j));
 
             _selectedFilteringSupport = _filteringSupports.size() - 1;
             getSelectedFilteringSupport().setOriginalData(_dataManager.getData(i), _dataManager.getData(j));
             addSeries(getSelectedFilteringSupport().getFilteredData(),
-                    "Plot" + _selectedFilteringSupport + " :" + i + ":" + j);
+                    "Plot" + _selectedFilteringSupport + ": " + i + ":" + j);
             _chart.getXYPlot().getDomainAxis().setLabel(_LabelDomain.get(_selectedFilteringSupport));
             _chart.getXYPlot().getRangeAxis().setLabel(_LabelRange.get(_selectedFilteringSupport));
         }
