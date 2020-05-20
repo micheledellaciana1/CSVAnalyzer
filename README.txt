@@ -30,6 +30,8 @@ N.B: Filter are added to the filtered data, so you can combine many in the singl
 Other things are quite intuitive.
 Stay tuned for updates. 
 
-
+//
+Enhanced graphics following Elsevier raccomandation (Light and Dark theme)
+//
 
 
