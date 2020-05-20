@@ -30,6 +30,7 @@ public class MenuEditorCSVAnalyzer extends MenuEditorChartFrame {
     public JMenu BuildMenuFile() {
         JMenu menu = new JMenu("File");
 
+        menu.add(BuildThemeMenu());
         menu.add(BuildExportMenu());
         menu.add(BuildLoadItem());
 

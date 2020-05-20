@@ -1,10 +1,14 @@
 package CSVAnalyzer;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import java.util.ArrayList;
 
 import javax.swing.JMenuBar;
 
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ui.RectangleInsets;
 
 import FilteringCore.filteringSupport;
 import core.ChartFrame;
@@ -17,7 +21,6 @@ public class CSVAnalizerBoard extends ChartFrame {
     private DataManager _dataManager;
     private MenuEditorCSVAnalyzer _menuEditor;
     private ArrayList<filteringSupport> _filteringSupports;
-
     private ArrayList<String> _LabelDomain;
     private ArrayList<String> _LabelRange;
     private Integer _selectedFilteringSupport = null;
