@@ -1,14 +1,11 @@
 package CSVAnalyzer;
 
-import java.awt.Color;
-import java.awt.Font;
-
 import java.util.ArrayList;
+import java.util.*;
 
 import javax.swing.JMenuBar;
 
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.ui.RectangleInsets;
 
 import FilteringCore.filteringSupport;
 import core.ChartFrame;
