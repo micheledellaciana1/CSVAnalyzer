@@ -12,6 +12,8 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import FilteringCore.LogXFilter;
+import FilteringCore.LogYFilter;
 import FilteringCore.derivateOrder1;
 import FilteringCore.noiseRductionMedian;
 import FilteringCore.noiseReductionOrder0;
@@ -33,6 +35,16 @@ public class MenuEditorCSVAnalyzer extends MenuEditorChartFrame {
         menu.add(BuildThemeMenu());
         menu.add(BuildExportMenu());
         menu.add(BuildLoadItem());
+        menu.add(BuildPropertyChart());
+
+        return menu;
+    }
+
+    public JMenu BuildPropertyChart() {
+        JMenu menu = new JMenu("Property chart");
+
+        menu.add(BuildSetXAxisName());
+        menu.add(BuildSetYAxisName());
 
         return menu;
     }
@@ -91,6 +103,36 @@ public class MenuEditorCSVAnalyzer extends MenuEditorChartFrame {
         return menuItem;
     }
 
+    public JMenuItem BuildSetXAxisName() {
+        JMenuItem menuItem = new JMenuItem(new AbstractAction("Set X axis name") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String name = JOptionPane.showInputDialog("Input X axis name");
+                    _chart.GetChart().getXYPlot().getDomainAxis().setLabel(name);
+                } catch (Exception _e) {
+                }
+            }
+        });
+        return menuItem;
+    }
+
+    public JMenuItem BuildSetYAxisName() {
+        JMenuItem menuItem = new JMenuItem(new AbstractAction("Set Y axis name") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String name = JOptionPane.showInputDialog("Input Y axis name");
+                    _chart.GetChart().getXYPlot().getRangeAxis().setLabel(name);
+                } catch (Exception _e) {
+                }
+            }
+        });
+        return menuItem;
+    }
+
     public JMenuItem BuildEraseEveryPlot() {
         JMenuItem menuItem = new JMenuItem(new AbstractAction("Clear chart") {
 
@@ -110,6 +152,8 @@ public class MenuEditorCSVAnalyzer extends MenuEditorChartFrame {
         menu.add(BuildMenuNoiseReduction());
         menu.add(BuildDerivateOrder1MenuItem());
         menu.add(BuildResetFilterMenuItem());
+        menu.add(BuildLogXMenuItem());
+        menu.add(BuildLogYMenuItem());
         return menu;
     }
 
@@ -176,6 +220,36 @@ public class MenuEditorCSVAnalyzer extends MenuEditorChartFrame {
             public void actionPerformed(ActionEvent e) {
                 try {
                     CSVAnalizerBoard.getInstance().getSelectedFilteringSupport().addFilter(new derivateOrder1());
+                } catch (Exception _e) {
+                }
+            }
+        });
+
+        return item;
+    }
+
+    public JMenuItem BuildLogXMenuItem() {
+        JMenuItem item = new JMenuItem(new AbstractAction("Log X axis") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    CSVAnalizerBoard.getInstance().getSelectedFilteringSupport().addFilter(new LogXFilter());
+                } catch (Exception _e) {
+                }
+            }
+        });
+
+        return item;
+    }
+
+    public JMenuItem BuildLogYMenuItem() {
+        JMenuItem item = new JMenuItem(new AbstractAction("Log Y axis") {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    CSVAnalizerBoard.getInstance().getSelectedFilteringSupport().addFilter(new LogYFilter());
                 } catch (Exception _e) {
                 }
             }
